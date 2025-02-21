@@ -1,0 +1,2 @@
+{"id":"eda77250-9d43-408e-8d06-cb5dbd8964cb","schema":"https:\/\/demo.com\/schemas\/advertisement-approved_1_0.json","eventType":"advertisement-approved","version":"1.0","occurredOn":"2025-02-21T18:56:55+00:00","payload":"{\"advertisementId\":\"6fa00b21-2930-483e-b610-d6b0e5b19b29\"}"}
+{"id":"1639efef-ace2-478e-b31a-8bd229e7495a","schema":"https:\/\/demo.com\/schemas\/advertisement-approved_1_0.json","eventType":"advertisement-approved","version":"1.0","occurredOn":"2025-02-21T18:59:28+00:00","payload":"{\"advertisementId\":\"6fa00b21-2930-483e-b610-d6b0e5b19b29\"}"}
