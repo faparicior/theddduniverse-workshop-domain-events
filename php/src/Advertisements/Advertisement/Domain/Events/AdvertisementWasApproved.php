@@ -10,6 +10,7 @@ use Ramsey\Uuid\Uuid;
 final readonly class AdvertisementWasApproved extends DomainEvent
 {
     private const string EVENT_TYPE = 'advertisement-approved';
+    private const string AGGREGATE_TYPE = 'advertisement';
     private const string VERSION = '1.0';
 
     private function __construct(
@@ -20,6 +21,8 @@ final readonly class AdvertisementWasApproved extends DomainEvent
         ?string $causationId = null,
     ) {
         parent::__construct(
+            $advertisementId,
+            self::AGGREGATE_TYPE,
             $correlationId,
             $causationId,
         );

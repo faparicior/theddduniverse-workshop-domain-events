@@ -234,5 +234,7 @@ final class AdvertisementAsAdminTest extends TestCase
         self::assertEquals(array_keys($expectedContent), array_keys($publishedContent));
         self::assertEquals($expectedContent['eventType'], $publishedContent['eventType']);
         self::assertEquals($expectedContent['version'], $publishedContent['version']);
+        self::assertEquals($expectedContent['source'], $publishedContent['source']);
+        self::assertEquals($expectedContent['aggregateType'], $publishedContent['aggregateType']);
     }
 }

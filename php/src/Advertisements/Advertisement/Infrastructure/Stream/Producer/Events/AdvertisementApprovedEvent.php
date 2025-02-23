@@ -8,6 +8,7 @@ use Demo\App\Common\Infrastructure\Stream\Producer\SerializableEvent;
 
 final readonly class AdvertisementApprovedEvent extends SerializableEvent
 {
+    private const string SOURCE = 'advertisement';
     //TODO: CHANGE VERSION SCHEMA TO ADAPT TO THE EVENT
     private const string SCHEMA = 'https://demo.com/schemas/advertisement-approved_1_0.json';
 
@@ -37,6 +38,9 @@ final readonly class AdvertisementApprovedEvent extends SerializableEvent
             $advertisementWasApproved->occurredOn,
             $advertisementWasApproved->correlationId,
             $advertisementWasApproved->causationId,
+            self::SOURCE,
+            $advertisementWasApproved->aggregateId,
+            $advertisementWasApproved->aggregateType,
             $payload,
         );
     }
