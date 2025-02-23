@@ -11,6 +11,8 @@ readonly abstract class SerializableEvent
         public string $eventType,
         public string $version,
         public \DateTimeImmutable $occurredOn,
+        public string $correlationId,
+        public ?string $causationId,
         public array $payload,
     ) {}
 
@@ -22,6 +24,8 @@ readonly abstract class SerializableEvent
             'eventType' => $this->eventType,
             'version' => $this->version,
             'occurredOn' => $this->occurredOn->format(\DateTime::ATOM),
+            'correlationId' => $this->correlationId,
+            'causationId' => $this->causationId,
             'payload' => $this->payload,
         ]);
     }

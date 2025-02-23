@@ -12,23 +12,31 @@ final readonly class AdvertisementWasApproved extends DomainEvent
     private const string EVENT_TYPE = 'advertisement-approved';
     private const string VERSION = '1.0';
 
-    public string $eventId;
-
     private function __construct(
-        public string $eventType,
-        public string $version,
-        public string $advertisementId,
+        public string  $eventType,
+        public string  $version,
+        public string  $advertisementId,
+        ?string $correlationId = null,
+        ?string $causationId = null,
     ) {
-        $this->eventId = Uuid::uuid4()->toString();
-        parent::__construct();
+        parent::__construct(
+            $correlationId,
+            $causationId,
+        );
     }
 
-    public static function create(Advertisement $advertisement): AdvertisementWasApproved
+    public static function create(
+        Advertisement $advertisement,
+        ?string $correlationId = null,
+        ?string $causationId = null,
+    ): AdvertisementWasApproved
     {
         return new self(
             self::EVENT_TYPE,
             self::VERSION,
             $advertisement->id()->value(),
+            $correlationId,
+            $causationId,
         );
     }
 }

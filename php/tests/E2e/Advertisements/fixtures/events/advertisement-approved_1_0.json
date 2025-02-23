@@ -3,7 +3,9 @@
   "schema": "https://demo.com/schemas/advertisement-approved_1_0.json",
   "eventType": "advertisement-approved",
   "version": "1.0",
-  "occurredOn": "2025-02-23T10:38:32+00:00",
+  "occurredOn": "2025-02-23T11:29:39+00:00",
+  "correlationId": "",
+  "causationId": null,
   "payload": {
     "advertisementId": "6fa00b21-2930-483e-b610-d6b0e5b19b29"
   }

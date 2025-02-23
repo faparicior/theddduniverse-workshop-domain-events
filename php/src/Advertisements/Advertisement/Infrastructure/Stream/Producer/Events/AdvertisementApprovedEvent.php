@@ -11,9 +11,6 @@ final readonly class AdvertisementApprovedEvent extends SerializableEvent
     //TODO: CHANGE VERSION SCHEMA TO ADAPT TO THE EVENT
     private const string SCHEMA = 'https://demo.com/schemas/advertisement-approved_1_0.json';
 
-//        public ?string $causationId,
-//        public string $correlationId,
-
 //        public string $source,
 
 //        public string $tenantId,
@@ -33,11 +30,13 @@ final readonly class AdvertisementApprovedEvent extends SerializableEvent
         ];
 
         return new self(
-            $advertisementWasApproved->id,
+            $advertisementWasApproved->eventId,
             self::SCHEMA,
             $advertisementWasApproved->eventType,
             $advertisementWasApproved->version,
             $advertisementWasApproved->occurredOn,
+            $advertisementWasApproved->correlationId,
+            $advertisementWasApproved->causationId,
             $payload,
         );
     }
