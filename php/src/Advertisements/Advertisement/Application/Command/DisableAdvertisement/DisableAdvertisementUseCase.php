@@ -29,14 +29,14 @@ final class DisableAdvertisementUseCase
             $advertisement = $this->advertisementRepository->findByIdOrFail(new AdvertisementId($command->advertisementId));
 
             if ('admin' === $command->securityUserRole) {
-                $this->securityService->verifyAdminUserCanManageAdvertisement(
+                $this->securityService->assertAdminUserCanManageAdvertisement(
                     new UserId($command->securityUserId),
                     $advertisement,
                 );
             }
 
             if ('user' === $command->securityUserRole) {
-                $this->securityService->verifyMemberUserCanManageAdvertisement(
+                $this->securityService->assertMemberUserCanManageAdvertisement(
                     new UserId($command->securityUserId),
                     $advertisement,
                 );

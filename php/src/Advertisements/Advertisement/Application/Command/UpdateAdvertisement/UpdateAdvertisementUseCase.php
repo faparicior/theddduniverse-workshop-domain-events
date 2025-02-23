@@ -32,7 +32,7 @@ final class UpdateAdvertisementUseCase
         try {
             $advertisement = $this->advertisementRepository->findByIdOrFail(new AdvertisementId($command->id));
 
-            $this->securityService->verifyMemberUserCanManageAdvertisement(
+            $this->securityService->assertMemberUserCanManageAdvertisement(
                 new UserId($command->securityUserId),
                 $advertisement,
             );

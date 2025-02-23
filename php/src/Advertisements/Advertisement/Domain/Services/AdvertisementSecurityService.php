@@ -20,7 +20,7 @@ class AdvertisementSecurityService
      * @throws UserNotFoundException
      * @throws AdminWithIncorrectCivicCenterException
      */
-    public function verifyAdminUserCanManageAdvertisement(UserId $securityUserId, Advertisement $advertisement): void
+    public function assertAdminUserCanManageAdvertisement(UserId $securityUserId, Advertisement $advertisement): void
     {
         $adminUser = $this->userRepository->findAdminById($securityUserId);
         if (!$adminUser) {
@@ -36,7 +36,7 @@ class AdvertisementSecurityService
      * @throws UnauthorizedUserException
      * @throws UserNotFoundException
      */
-    public function verifyMemberUserCanManageAdvertisement(UserId $securityUserId, Advertisement $advertisement): void
+    public function assertMemberUserCanManageAdvertisement(UserId $securityUserId, Advertisement $advertisement): void
     {
         $memberUser = $this->userRepository->findMemberByIdOrFail($securityUserId);
         if (!$memberUser) {

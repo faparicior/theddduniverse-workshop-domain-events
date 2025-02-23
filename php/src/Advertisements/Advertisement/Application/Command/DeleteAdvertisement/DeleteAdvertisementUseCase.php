@@ -30,7 +30,7 @@ final class DeleteAdvertisementUseCase
 
             $memberId = new UserId($command->securityUserId);
 
-            $this->securityService->verifyMemberUserCanManageAdvertisement(
+            $this->securityService->assertMemberUserCanManageAdvertisement(
                 $memberId,
                 $advertisement,
             );
