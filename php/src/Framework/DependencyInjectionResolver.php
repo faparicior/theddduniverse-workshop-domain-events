@@ -187,6 +187,6 @@ class DependencyInjectionResolver
 
     private function filenameMessageBroker(): FileMessageBroker
     {
-        return new FileMessageBroker(__DIR__ . "/../stream/events.txt");
+        return new FileMessageBroker(__DIR__ . "/../stream/");
     }
 }

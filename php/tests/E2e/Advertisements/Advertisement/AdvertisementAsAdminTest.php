@@ -19,6 +19,8 @@ final class AdvertisementAsAdminTest extends TestCase
     private const string ADVERTISEMENT_CREATION_DATE = '2024-02-03 13:30:23';
     private const string INVALID_EMAIL = 'emailtest.com';
     private const string ADMIN_ID = '91b5fa8c-6212-4c0f-862f-4dc1cb0472c4';
+    private const string PUBLISHED_EVENTS_PATH = __DIR__ . '/../../../../src/stream/';
+    private const string EVENTS_FIXTURES = __DIR__ . '/../fixtures/events/';
 
     private DependencyInjectionResolver $resolver;
     private Server $server;
@@ -30,6 +32,7 @@ final class AdvertisementAsAdminTest extends TestCase
         $this->resolver = new DependencyInjectionResolver();
         $this->connection = $this->resolver->connection();
         $this->emptyDatabase();
+        $this->resetStream();
         $this->server = new Server($this->resolver);
         parent::setUp();
     }
@@ -120,6 +123,11 @@ final class AdvertisementAsAdminTest extends TestCase
 
         $resultSet = $this->connection->query('select * from advertisements;');
         self::assertEquals('approved', $resultSet[0]['approval_status']);
+
+        $this->assertEventIsPublished(
+            self::EVENTS_FIXTURES . 'advertisement-approved_1_0.json',
+            self::PUBLISHED_EVENTS_PATH . 'pub.advertisement.events'
+        );
     }
 
     private function emptyDatabase(): void
@@ -206,5 +214,23 @@ final class AdvertisementAsAdminTest extends TestCase
             'code' => 404,
             'message' => 'Advertisement not found with ID: 99999999-2930-483e-b610-d6b0e5b19b29',
         ];
+    }
+
+    private function resetStream()
+    {
+        $files = glob(self::PUBLISHED_EVENTS_PATH . '*'); // get all file names
+        foreach ($files as $file) { // iterate files
+            if (is_file($file)) {
+                unlink($file); // delete file
+            }
+        }
+    }
+
+    private function assertEventIsPublished(string $expected, string $published): void
+    {
+        $expectedContent = json_decode(file_get_contents($expected), true);
+        $publishedContent = json_decode(file_get_contents($published), true);
+
+        self::assertEquals(array_keys($expectedContent), array_keys($publishedContent));
     }
 }

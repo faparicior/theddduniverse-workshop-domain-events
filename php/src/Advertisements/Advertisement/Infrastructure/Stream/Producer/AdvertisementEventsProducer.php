@@ -13,6 +13,8 @@ use RuntimeException;
 
 class AdvertisementEventsProducer implements EventPublisher
 {
+    private const string PUB_ADVERTISEMENT = 'pub.advertisement';
+
     public function __construct(private MessageBroker $messageBroker)
     {
     }
@@ -45,6 +47,6 @@ class AdvertisementEventsProducer implements EventPublisher
 
     private function sendEventToMessageBroker(SerializableEvent $event): void
     {
-        $this->messageBroker->publish($event);
+        $this->messageBroker->publish($event, self::PUB_ADVERTISEMENT);
     }
 }

@@ -22,7 +22,7 @@ readonly abstract class SerializableEvent
             'eventType' => $this->eventType,
             'version' => $this->version,
             'occurredOn' => $this->occurredOn->format(\DateTime::ATOM),
-            'payload' => json_encode($this->payload),
+            'payload' => $this->payload,
         ]);
     }
 }

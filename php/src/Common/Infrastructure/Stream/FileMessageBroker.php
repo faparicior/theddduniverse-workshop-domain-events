@@ -18,9 +18,9 @@ class FileMessageBroker implements MessageBroker
     /**
      * @throws RuntimeException
      */
-    public function publish(SerializableEvent $event): void
+    public function publish(SerializableEvent $event, string $topic): void
     {
-        $result = file_put_contents($this->filePath, $event->toJson() . PHP_EOL, FILE_APPEND);
+        $result = file_put_contents($this->filePath . $topic . ".events", $event->toJson() . PHP_EOL, FILE_APPEND);
 
         if ($result === false) {
             throw new RuntimeException('Failed to write to stream');
