@@ -1,14 +1,15 @@
 {
-  "id": "99a7ff91-fd25-4bb5-9ee3-e29fe066e808",
+  "id": "7c26f23e-7098-404d-8018-36e42e5d5d38",
   "schema": "https:\/\/demo.com\/schemas\/advertisement-approved_1_0.json",
   "eventType": "advertisement-approved",
   "version": "1.0",
-  "occurredOn": "2025-02-23T16:54:23+00:00",
-  "correlationId": "99a7ff91-fd25-4bb5-9ee3-e29fe066e808",
+  "occurredOn": "2025-02-23T17:20:23+00:00",
+  "correlationId": "7c26f23e-7098-404d-8018-36e42e5d5d38",
   "causationId": null,
   "source": "advertisement",
   "aggregateId": "6fa00b21-2930-483e-b610-d6b0e5b19b29",
   "aggregateType": "advertisement",
+  "tenantId": "barcelona",
   "payload": {
     "advertisementId": "6fa00b21-2930-483e-b610-d6b0e5b19b29"
   }

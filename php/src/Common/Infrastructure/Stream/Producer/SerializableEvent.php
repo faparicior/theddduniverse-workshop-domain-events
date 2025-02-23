@@ -16,6 +16,7 @@ readonly abstract class SerializableEvent
         public string $source,
         public string $aggregateId,
         public string $aggregateType,
+        public string $tenantId,
         public array $payload,
     ) {}
 
@@ -32,6 +33,7 @@ readonly abstract class SerializableEvent
             'source' => $this->source,
             'aggregateId' => $this->aggregateId,
             'aggregateType' => $this->aggregateType,
+            'tenantId' => $this->tenantId,
             'payload' => $this->payload,
         ]);
     }

@@ -10,6 +10,7 @@ use Demo\App\Common\UI\CommonController;
 use Demo\App\Framework\FrameworkRequest;
 use Demo\App\Framework\FrameworkResponse;
 use Demo\App\Framework\SecurityUser\FrameworkSecurityService;
+use Demo\App\Framework\ThreadContext;
 
 final class ApproveAdvertisementController extends CommonController
 {
@@ -22,6 +23,8 @@ final class ApproveAdvertisementController extends CommonController
     {
         try {
             $user = $this->securityService->getSecurityUserFromRequest($request);
+
+            ThreadContext::getInstance()->setValue('tenantId', $request->headers()['tenant-id']);
 
             if (null == $user || !$user->role() == 'admin') {
                 return $this->processUnauthorizedResponse();

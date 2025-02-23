@@ -5,6 +5,7 @@ namespace Demo\App\Advertisements\Advertisement\Infrastructure\Stream\Producer\E
 
 use Demo\App\Advertisements\Advertisement\Domain\Events\AdvertisementWasApproved;
 use Demo\App\Common\Infrastructure\Stream\Producer\SerializableEvent;
+use Demo\App\Framework\ThreadContext;
 
 final readonly class AdvertisementApprovedEvent extends SerializableEvent
 {
@@ -14,7 +15,6 @@ final readonly class AdvertisementApprovedEvent extends SerializableEvent
 
 //        public string $source,
 
-//        public string $tenantId,
 //        public string $traceId,
 //        public string $userId,
 //        public string $environment,
@@ -41,6 +41,7 @@ final readonly class AdvertisementApprovedEvent extends SerializableEvent
             self::SOURCE,
             $advertisementWasApproved->aggregateId,
             $advertisementWasApproved->aggregateType,
+            ThreadContext::getInstance()->getValue('tenantId'),
             $payload,
         );
     }

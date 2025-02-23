@@ -19,6 +19,7 @@ final class AdvertisementAsAdminTest extends TestCase
     private const string ADVERTISEMENT_CREATION_DATE = '2024-02-03 13:30:23';
     private const string INVALID_EMAIL = 'emailtest.com';
     private const string ADMIN_ID = '91b5fa8c-6212-4c0f-862f-4dc1cb0472c4';
+    private const string BARCELONA_TENANT_ID = 'barcelona';
     private const string PUBLISHED_EVENTS_PATH = __DIR__ . '/../../../../src/stream/';
     private const string EVENTS_FIXTURES = __DIR__ . '/../fixtures/events/';
 
@@ -111,6 +112,7 @@ final class AdvertisementAsAdminTest extends TestCase
             ],
             [
                 'userSession' => self::ADMIN_ID,
+                'tenant-id' => self::BARCELONA_TENANT_ID,
             ]
         );
         $response = $this->server->route($request);
@@ -236,5 +238,6 @@ final class AdvertisementAsAdminTest extends TestCase
         self::assertEquals($expectedContent['version'], $publishedContent['version']);
         self::assertEquals($expectedContent['source'], $publishedContent['source']);
         self::assertEquals($expectedContent['aggregateType'], $publishedContent['aggregateType']);
+        self::assertEquals($expectedContent['tenantId'], $publishedContent['tenantId']);
     }
 }
