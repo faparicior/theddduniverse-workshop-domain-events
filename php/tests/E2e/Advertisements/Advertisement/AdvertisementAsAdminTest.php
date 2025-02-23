@@ -232,5 +232,7 @@ final class AdvertisementAsAdminTest extends TestCase
         $publishedContent = json_decode(file_get_contents($published), true);
 
         self::assertEquals(array_keys($expectedContent), array_keys($publishedContent));
+        self::assertEquals($expectedContent['eventType'], $publishedContent['eventType']);
+        self::assertEquals($expectedContent['version'], $publishedContent['version']);
     }
 }
