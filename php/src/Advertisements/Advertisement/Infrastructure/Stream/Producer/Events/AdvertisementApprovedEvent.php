@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Demo\App\Advertisements\Advertisement\Infrastructure\Stream\Producer;
+namespace Demo\App\Advertisements\Advertisement\Infrastructure\Stream\Producer\Events;
 
 use Demo\App\Advertisements\Advertisement\Domain\Events\AdvertisementWasApproved;
 use Demo\App\Common\Infrastructure\Stream\Producer\SerializableEvent;

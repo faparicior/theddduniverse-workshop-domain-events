@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Demo\App\Advertisements\Advertisement\Infrastructure\Stream\Producer;
 
 use Demo\App\Advertisements\Advertisement\Domain\Events\AdvertisementWasApproved;
+use Demo\App\Advertisements\Advertisement\Infrastructure\Stream\Producer\Events\AdvertisementApprovedEvent;
 use Demo\App\Common\Domain\DomainEvent;
 use Demo\App\Common\Domain\EventPublisher;
 use Demo\App\Common\Infrastructure\Stream\MessageBroker;
