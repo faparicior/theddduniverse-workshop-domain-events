@@ -16,7 +16,7 @@ final readonly class AdvertisementWasApproved extends DomainEvent
         public string  $eventType,
         public string  $version,
         public string  $advertisementId,
-        ?string $correlationId = null,
+        string $correlationId,
         ?string $causationId = null,
     ) {
         parent::__construct(
@@ -27,7 +27,7 @@ final readonly class AdvertisementWasApproved extends DomainEvent
 
     public static function create(
         Advertisement $advertisement,
-        ?string $correlationId = null,
+        string $correlationId,
         ?string $causationId = null,
     ): AdvertisementWasApproved
     {

@@ -9,11 +9,11 @@ abstract readonly class DomainEvent
 {
     public string $eventId;
     public \DateTimeImmutable $occurredOn;
-    public ?string $correlationId;
+    public string $correlationId;
     public ?string $causationId;
 
     protected function __construct(
-        ?string $correlationId = null,
+        string $correlationId = null,
         ?string $causationId = null,
     ) {
         $this->eventId = Uuid::uuid4()->toString();

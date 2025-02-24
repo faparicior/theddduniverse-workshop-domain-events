@@ -28,7 +28,7 @@ final class Advertisement
         private AdvertisementDate        $date,
         private readonly CivicCenterId   $civicCenterId,
         private readonly UserId          $memberId,
-        private ?string $externalCorrelationId = null,
+        private string $externalCorrelationId,
         private ?string $externalCausationId = null
     ){
         $this->status = AdvertisementStatus::ENABLED;
