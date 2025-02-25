@@ -5,7 +5,6 @@ namespace Demo\App\Advertisements\Advertisement\Infrastructure\Stream\Producer\E
 
 use Demo\App\Advertisements\Advertisement\Domain\Events\AdvertisementWasApproved;
 use Demo\App\Common\Infrastructure\Stream\Producer\SerializableEvent;
-use Demo\App\Framework\ThreadContext;
 
 final readonly class AdvertisementApprovedEvent extends SerializableEvent
 {
@@ -23,8 +22,13 @@ final readonly class AdvertisementApprovedEvent extends SerializableEvent
 
 //        public string $aggregateVersion,
 
-
-    public static function create(AdvertisementWasApproved $advertisementWasApproved): AdvertisementApprovedEvent
+    public static function create(
+        AdvertisementWasApproved $advertisementWasApproved,
+        string $source,
+        string $tenantId,
+        string $correlationId,
+        ?string $causationId
+    ): AdvertisementApprovedEvent
     {
         $payload = [
             'advertisementId' => $advertisementWasApproved->advertisementId,
@@ -36,12 +40,12 @@ final readonly class AdvertisementApprovedEvent extends SerializableEvent
             $advertisementWasApproved->eventType,
             $advertisementWasApproved->version,
             $advertisementWasApproved->occurredOn,
-            $advertisementWasApproved->correlationId,
-            $advertisementWasApproved->causationId,
-            self::SOURCE,
-            $advertisementWasApproved->aggregateId,
+            $correlationId,
+            $causationId,
+            $source,
+            $advertisementWasApproved->advertisementId,
             $advertisementWasApproved->aggregateType,
-            ThreadContext::getInstance()->getValue('tenantId'),
+            $tenantId,
             $payload,
         );
     }

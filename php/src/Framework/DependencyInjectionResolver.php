@@ -182,7 +182,10 @@ class DependencyInjectionResolver
 
     private function advertisementEventProducer(): AdvertisementEventsProducer
     {
-        return new AdvertisementEventsProducer($this->filenameMessageBroker());
+        return new AdvertisementEventsProducer(
+            $this->filenameMessageBroker(),
+            ThreadContext::getInstance(),
+        );
     }
 
     private function filenameMessageBroker(): FileMessageBroker

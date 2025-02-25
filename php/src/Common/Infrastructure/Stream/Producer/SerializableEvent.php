@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Demo\App\Common\Infrastructure\Stream\Producer;
 
+use Ramsey\Uuid\Uuid;
+
 readonly abstract class SerializableEvent
 {
     public function __construct(
