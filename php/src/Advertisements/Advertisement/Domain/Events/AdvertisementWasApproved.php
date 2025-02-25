@@ -5,7 +5,6 @@ namespace Demo\App\Advertisements\Advertisement\Domain\Events;
 
 use Demo\App\Advertisements\Advertisement\Domain\Advertisement;
 use Demo\App\Common\Domain\DomainEvent;
-use Ramsey\Uuid\Uuid;
 
 final readonly class AdvertisementWasApproved extends DomainEvent
 {
@@ -17,29 +16,16 @@ final readonly class AdvertisementWasApproved extends DomainEvent
         public string  $eventType,
         public string  $version,
         public string  $advertisementId,
-        ?string $correlationId = null,
-        ?string $causationId = null,
     ) {
-        parent::__construct(
-            $advertisementId,
-            self::AGGREGATE_TYPE,
-            $correlationId,
-            $causationId,
-        );
+        parent::__construct($this->advertisementId, self::AGGREGATE_TYPE);
     }
 
-    public static function create(
-        Advertisement $advertisement,
-        ?string $correlationId = null,
-        ?string $causationId = null,
-    ): AdvertisementWasApproved
+    public static function create(Advertisement $advertisement): AdvertisementWasApproved
     {
         return new self(
             self::EVENT_TYPE,
             self::VERSION,
             $advertisement->id()->value(),
-            $correlationId,
-            $causationId,
         );
     }
 }

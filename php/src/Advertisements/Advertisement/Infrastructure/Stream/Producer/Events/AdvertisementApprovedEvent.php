@@ -23,8 +23,7 @@ final readonly class AdvertisementApprovedEvent extends SerializableEvent
 
 //        public string $aggregateVersion,
 
-
-    public static function create(AdvertisementWasApproved $advertisementWasApproved): AdvertisementApprovedEvent
+    public static function create(AdvertisementWasApproved $advertisementWasApproved, string $correlationId, ?string $causationId): AdvertisementApprovedEvent
     {
         $payload = [
             'advertisementId' => $advertisementWasApproved->advertisementId,
@@ -36,8 +35,8 @@ final readonly class AdvertisementApprovedEvent extends SerializableEvent
             $advertisementWasApproved->eventType,
             $advertisementWasApproved->version,
             $advertisementWasApproved->occurredOn,
-            $advertisementWasApproved->correlationId,
-            $advertisementWasApproved->causationId,
+            $correlationId,
+            $causationId,
             self::SOURCE,
             $advertisementWasApproved->aggregateId,
             $advertisementWasApproved->aggregateType,

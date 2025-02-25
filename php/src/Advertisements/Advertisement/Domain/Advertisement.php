@@ -28,8 +28,6 @@ final class Advertisement
         private AdvertisementDate        $date,
         private readonly CivicCenterId   $civicCenterId,
         private readonly UserId          $memberId,
-        private ?string $externalCorrelationId = null,
-        private ?string $externalCausationId = null
     ){
         $this->status = AdvertisementStatus::ENABLED;
         $this->approvalStatus = AdvertisementApprovalStatus::PENDING_FOR_APPROVAL;
@@ -112,11 +110,7 @@ final class Advertisement
     public function approve(): void
     {
         $this->approvalStatus = AdvertisementApprovalStatus::APPROVED;
-        $this->events[] = AdvertisementWasApproved::create(
-            $this,
-            $this->externalCorrelationId,
-            $this->externalCausationId
-        );
+        $this->events[] = AdvertisementWasApproved::create($this);
     }
 
     public function pullEvents(): array
