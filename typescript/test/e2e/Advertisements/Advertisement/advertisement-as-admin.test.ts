@@ -25,6 +25,7 @@ describe("Advertisement as admin", () => {
     beforeEach(async () => {
         await connection.execute('delete from advertisements', [])
         await connection.execute('delete from users', [])
+        resetStream()
     })
 
     it("Should approve an advertisement as admin", async () => {
@@ -45,6 +46,11 @@ describe("Advertisement as admin", () => {
 
         expect(dbData.length).toBe(1)
         expect(dbData[0].approval_status).toBe('approved')
+
+        assertEventIsPublished(
+            'test/e2e/Advertisements/fixtures/events/advertisement-approved_1_0.json',
+            'src/stream/pub.advertisement.events',
+        )
     })
 
     it("Should enable an advertisement as admin", async () => {
@@ -148,4 +154,38 @@ async function withAdminUser(): Promise<void> {
             'enabled'
         ]
     );
+}
+
+function resetStream(): void {
+    const fs = require('fs');
+    const path = require('path');
+
+    const directoryPath = 'src/stream';
+
+    // Check if directory exists
+    if (!fs.existsSync(directoryPath)) {
+        return;
+    }
+
+    // Read all files synchronously
+    const files = fs.readdirSync(directoryPath);
+
+    // Delete each file synchronously
+    files.forEach((file: string) => {
+        const filePath = path.join(directoryPath, file);
+        if (fs.statSync(filePath).isFile()) {
+            fs.unlinkSync(filePath);
+        }
+    });
+}
+
+function assertEventIsPublished(expected: string, published: string): void {
+    const fs = require('fs');
+
+    const expectedContent = JSON.parse(fs.readFileSync(expected, 'utf8'));
+    const publishedContent = JSON.parse(fs.readFileSync(published, 'utf8'));
+
+    expect(Object.keys(expectedContent)).toEqual(Object.keys(publishedContent));
+    expect(expectedContent.eventType).toEqual(publishedContent.eventType);
+    expect(expectedContent.version).toEqual(publishedContent.version);
 }

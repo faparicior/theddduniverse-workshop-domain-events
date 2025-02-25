@@ -7,10 +7,14 @@ import {AdvertisementStatus} from "./value-object/AdvertisementStatusHelper";
 import {Email} from "../../shared/domain/value-object/Email";
 import {UserId} from "../../shared/domain/value-object/UserId";
 import {CivicCenterId} from "../../shared/domain/value-object/CivicCenterId";
+import {DomainEvent} from "../../../common/domain/DomainEvent";
+import {AdvertisementWasApproved} from "./events/AdvertisementWasApproved";
 
 export class Advertisement {
   private _status: AdvertisementStatus;
   private _approvalStatus: AdvertisementApprovalStatus;
+
+  private _events: DomainEvent[] = [];
 
   constructor(
       private readonly _id: AdvertisementId,
@@ -87,5 +91,12 @@ export class Advertisement {
 
   public approve(): void {
     this._approvalStatus = AdvertisementApprovalStatus.fromString('approved');
+    this._events.push(AdvertisementWasApproved.create(this));
+  }
+
+  public pullEvents() {
+    const events = this._events;
+    this._events = [];
+    return events;
   }
 }

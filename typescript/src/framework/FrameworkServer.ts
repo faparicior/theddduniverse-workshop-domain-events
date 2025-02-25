@@ -43,6 +43,10 @@ import {EnableMemberController} from "../advertisements/user/ui/http/EnableMembe
 import {EnableMemberUseCase} from "../advertisements/user/application/command/enable-member/EnableMemberUseCase";
 import {SecurityService} from "../advertisements/advertisement/domain/services/SecurityService";
 import {SqliteTransactionManager} from "./database/SqliteTransactionManager";
+import {
+  AdvertisementEventsProducer
+} from "../advertisements/advertisement/infrastructure/stream/producer/AdvertisementEventsProducer";
+import {FileMessageBroker} from "../common/infrastructure/stream/producer/FileMessageBroker";
 
 export class FrameworkServer {
 
@@ -65,6 +69,7 @@ export class FrameworkServer {
     const userRepository = new SqliteUserRepository(connection);
     const securityService = new SecurityService(userRepository);
     const transactionManager = new SqliteTransactionManager(connection);
+    const advertisementEventPublisher = new AdvertisementEventsProducer(new FileMessageBroker('src/stream/'));
     const publishAdvertisementUseCase = new PublishAdvertisementUseCase(advertisementRepository, userRepository, transactionManager);
     const updateAdvertisementUseCase = new UpdateAdvertisementUseCase(advertisementRepository, securityService, transactionManager);
     const publishAdvertisementController = new PublishAdvertisementController(
@@ -97,7 +102,13 @@ export class FrameworkServer {
     )
 
     const approveAdvertisementController = new ApproveAdvertisementController(
-        new ApproveAdvertisementUseCase(advertisementRepository, userRepository, securityService, transactionManager),
+        new ApproveAdvertisementUseCase(
+            advertisementRepository,
+            userRepository,
+            securityService,
+            transactionManager,
+            advertisementEventPublisher,
+        ),
         new FrameworkSecurityService(
             new SqliteSecurityUserRepository(connection)
         )
