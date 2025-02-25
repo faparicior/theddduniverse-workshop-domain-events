@@ -107,14 +107,10 @@ final class Advertisement
         $this->status = AdvertisementStatus::ENABLED;
     }
 
-    public function approve(string $externalCorrelationId, ?string $externalCausationId = null): void
+    public function approve(): void
     {
         $this->approvalStatus = AdvertisementApprovalStatus::APPROVED;
-        $this->events[] = AdvertisementWasApproved::create(
-            $this,
-            $externalCorrelationId,
-            $externalCausationId
-        );
+        $this->events[] = AdvertisementWasApproved::create($this);
     }
 
     public function pullEvents(): array

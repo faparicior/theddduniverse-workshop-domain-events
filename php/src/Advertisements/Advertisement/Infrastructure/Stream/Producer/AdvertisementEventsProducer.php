@@ -9,13 +9,15 @@ use Demo\App\Common\Domain\DomainEvent;
 use Demo\App\Common\Domain\EventPublisher;
 use Demo\App\Common\Infrastructure\Stream\MessageBroker;
 use Demo\App\Common\Infrastructure\Stream\Producer\SerializableEvent;
+use Demo\App\Common\Infrastructure\UniqueIdGenerator;
+use Demo\App\Framework\ThreadContext;
 use RuntimeException;
 
 class AdvertisementEventsProducer implements EventPublisher
 {
     private const string PUB_ADVERTISEMENT = 'pub.advertisement';
 
-    public function __construct(private MessageBroker $messageBroker)
+    public function __construct(private MessageBroker $messageBroker, private ThreadContext $threadContext)
     {
     }
 
@@ -40,7 +42,11 @@ class AdvertisementEventsProducer implements EventPublisher
 
     private function publishAdvertisementApproved(AdvertisementWasApproved $event)
     {
-        $event = AdvertisementApprovedEvent::create($event);
+        $event = AdvertisementApprovedEvent::create(
+            $event,
+            $this->threadContext->getValue("correlationId") ?? UniqueIdGenerator::generate(),
+            $this->threadContext->getValue("causationId"),
+        );
 
         $this->sendEventToMessageBroker($event);
     }
