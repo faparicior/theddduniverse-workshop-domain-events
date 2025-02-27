@@ -10,6 +10,7 @@ import advertisements.advertisement.application.command.updateadvertisement.Upda
 import advertisements.advertisement.domain.AdvertisementRepository
 import advertisements.advertisement.domain.services.AdvertisementSecurityService
 import advertisements.advertisement.infrastructure.persistence.SqLiteAdvertisementRepository
+import advertisements.advertisement.infrastructure.stream.producer.AdvertisementEventsProducer
 import advertisements.advertisement.ui.http.*
 import advertisements.user.application.command.disablemember.DisableMemberUseCase
 import advertisements.user.application.command.enablemember.EnableMemberUseCase
@@ -19,6 +20,8 @@ import advertisements.user.infrastructure.persistence.SqliteUserRepository
 import advertisements.user.ui.http.DisableMemberController
 import advertisements.user.ui.http.EnableMemberController
 import advertisements.user.ui.http.SignUpMemberController
+import common.domain.EventPublisher
+import common.infrastructure.stream.FileMessageBroker
 import framework.database.DatabaseConnection
 import framework.database.SqliteConnection
 import framework.database.SqliteTransactionManager
@@ -89,6 +92,7 @@ class DependencyInjectionResolver {
                 this.advertisementRepository(),
                 this.advertisementSecurityService(),
                 this.transactionManager(),
+                this.advertisementEventPublisher(),
             ),
             this.securityService()
         )
@@ -172,6 +176,14 @@ class DependencyInjectionResolver {
                 this.transactionManager(),
             ),
             this.securityService()
+        )
+    }
+
+    fun advertisementEventPublisher(): EventPublisher {
+        return AdvertisementEventsProducer(
+            FileMessageBroker(
+                "src/main/resources/stream/"
+            )
         )
     }
 }

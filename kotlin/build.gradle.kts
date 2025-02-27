@@ -14,6 +14,7 @@ dependencies {
     testImplementation("org.slf4j:slf4j-api:2.0.12")
     testImplementation("org.slf4j:slf4j-log4j12:2.0.12")
     testImplementation("org.jetbrains.kotlin:kotlin-reflect:1.5.21")
+    testImplementation("org.json:json:20240303")
     implementation("org.xerial:sqlite-jdbc:3.44.1.0")
     implementation("de.mkammerer:argon2-jvm:2.11")
 

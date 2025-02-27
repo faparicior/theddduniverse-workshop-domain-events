@@ -5,12 +5,14 @@ import advertisements.advertisement.domain.AdvertisementRepository
 import advertisements.advertisement.domain.services.AdvertisementSecurityService
 import advertisements.advertisement.domain.value_object.AdvertisementId
 import advertisements.shared.value_object.UserId
+import common.domain.EventPublisher
 import framework.database.TransactionManager
 
 class ApproveAdvertisementUseCase(
     private val advertisementRepository: AdvertisementRepository,
     private val advertisementSecurityService: AdvertisementSecurityService,
     private val transactionManager: TransactionManager,
+    private val eventPublisher: EventPublisher,
 ) {
     fun execute(approveAdvertisementCommand: ApproveAdvertisementCommand) {
         transactionManager.beginTransaction()
@@ -32,6 +34,9 @@ class ApproveAdvertisementUseCase(
 
             advertisementRepository.save(advertisement)
             transactionManager.commit()
+
+            eventPublisher.publish(advertisement.pullEvents())
+
         } catch (e: Exception) {
             transactionManager.rollback()
             throw e

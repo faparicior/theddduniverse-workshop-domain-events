@@ -7,10 +7,13 @@ import framework.Server
 import framework.database.DatabaseConnection
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.io.File
 import java.security.MessageDigest
 import java.time.LocalDateTime
+import org.json.JSONObject
 
 
 class AdvertisementsAsAdminTest {
@@ -38,6 +41,7 @@ class AdvertisementsAsAdminTest {
         this.connection = DependencyInjectionResolver().connection()
         this.connection.execute("DELETE FROM advertisements")
         this.connection.execute("DELETE FROM users")
+        this.resetStream()
     }
 
     @Test
@@ -57,8 +61,8 @@ class AdvertisementsAsAdminTest {
                     )
                 )
 
-                Assertions.assertEquals(FrameworkResponse.STATUS_OK, result.statusCode)
-                Assertions.assertEquals(successCommandResponse(HTTP_OK), result.content)
+                assertEquals(FrameworkResponse.STATUS_OK, result.statusCode)
+                assertEquals(successCommandResponse(HTTP_OK), result.content)
 
                 val resultSet = this.connection.query("SELECT * from advertisements;")
                 var status = ""
@@ -67,7 +71,7 @@ class AdvertisementsAsAdminTest {
                     status = resultSet.getString("status")
                 }
 
-                Assertions.assertEquals("DISABLED", status)
+                assertEquals("DISABLED", status)
             }
         }
     }
@@ -90,8 +94,8 @@ class AdvertisementsAsAdminTest {
                         )
                     )
 
-                    Assertions.assertEquals(FrameworkResponse.STATUS_OK, result.statusCode)
-                    Assertions.assertEquals(successCommandResponse(HTTP_OK), result.content)
+                    assertEquals(FrameworkResponse.STATUS_OK, result.statusCode)
+                    assertEquals(successCommandResponse(HTTP_OK), result.content)
 
                     val resultSet = this.connection.query("SELECT * from advertisements;")
                     var status = ""
@@ -100,7 +104,7 @@ class AdvertisementsAsAdminTest {
                         status = resultSet.getString("status")
                     }
 
-                    Assertions.assertEquals("ENABLED", status)
+                    assertEquals("ENABLED", status)
                 }
             }
         }
@@ -124,8 +128,8 @@ class AdvertisementsAsAdminTest {
                         )
                     )
 
-                    Assertions.assertEquals(FrameworkResponse.STATUS_OK, result.statusCode)
-                    Assertions.assertEquals(successCommandResponse(HTTP_OK), result.content)
+                    assertEquals(FrameworkResponse.STATUS_OK, result.statusCode)
+                    assertEquals(successCommandResponse(HTTP_OK), result.content)
 
                     val resultSet = this.connection.query("SELECT * from advertisements;")
                     var status = ""
@@ -134,7 +138,8 @@ class AdvertisementsAsAdminTest {
                         status = resultSet.getString("approval_status")
                     }
 
-                    Assertions.assertEquals("APPROVED", status)
+                    assertEquals("APPROVED", status)
+                    assertEventIsPublished("src/test/resources/e2e/advertisement/events/advertisement-approved_1_0.json", "src/main/resources/stream/pub.advertisement.events")
                 }
             }
         }
@@ -231,5 +236,25 @@ class AdvertisementsAsAdminTest {
         val digest = md.digest(this.toByteArray())
         val hexString = digest.joinToString("") { "%02x".format(it) }
         return hexString
+    }
+
+    private fun resetStream() {
+        val directory = File("src/main/resources/stream/")
+        if (directory.exists() && directory.isDirectory) {
+            directory.listFiles()?.forEach { file ->
+                if (file.isFile) {
+                    file.delete()
+                }
+            }
+        }
+    }
+
+    private fun assertEventIsPublished(expected: String, published: String) {
+        val expectedContent = JSONObject(File(expected).readText())
+        val publishedContent = JSONObject(File(published).readText())
+
+        assertEquals(expectedContent.keys().asSequence().toSet(), publishedContent.keys().asSequence().toSet())
+        assertEquals(expectedContent.getString("eventType"), publishedContent.getString("eventType"))
+        assertEquals(expectedContent.getString("version"), publishedContent.getString("version"))
     }
 }

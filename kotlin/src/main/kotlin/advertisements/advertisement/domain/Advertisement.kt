@@ -1,7 +1,9 @@
 package advertisements.advertisement.domain
 
+import advertisements.advertisement.domain.events.AdvertisementWasApproved
 import advertisements.advertisement.domain.value_object.*
 import advertisements.shared.value_object.*
+import common.domain.DomainEvent
 import java.time.LocalDateTime
 
 class Advertisement(
@@ -17,6 +19,8 @@ class Advertisement(
         private set
     var approvalStatus: AdvertisementApprovalStatus = AdvertisementApprovalStatus.PENDING_FOR_APPROVAL
         private set
+
+    private val events: MutableList<DomainEvent> = mutableListOf()
 
     fun renew(password: Password) {
         this.password = password
@@ -44,5 +48,12 @@ class Advertisement(
 
     fun approve() {
         approvalStatus = AdvertisementApprovalStatus.APPROVED
+        events.add(AdvertisementWasApproved.create(id.value()))
+    }
+
+    fun pullEvents(): List<DomainEvent> {
+        val events = this.events.toList()
+        this.events.clear()
+        return events
     }
 }
