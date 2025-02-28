@@ -38,10 +38,8 @@ final class ApproveAdvertisementUseCase
             $advertisement->approve();
 
             $this->advertisementRepository->save($advertisement);
-
-            $this->eventPublisher->publish(...$advertisement->pullEvents());
-
             $this->transactionManager->commit();
+            $this->eventPublisher->publish(...$advertisement->pullEvents());
         } catch (Exception $exception) {
             $this->transactionManager->rollback();
             throw $exception;
