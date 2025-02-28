@@ -173,7 +173,7 @@ function resetStream(): void {
     // Delete each file synchronously
     files.forEach((file: string) => {
         const filePath = path.join(directoryPath, file);
-        if (fs.statSync(filePath).isFile()) {
+        if (fs.statSync(filePath).isFile()  && path.extname(filePath) === '.events') {
             fs.unlinkSync(filePath);
         }
     });
