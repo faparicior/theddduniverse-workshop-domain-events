@@ -6,6 +6,8 @@ import common.domain.DomainEvent
 import common.domain.EventPublisher
 import common.infrastructure.stream.MessageBroker
 import common.infrastructure.stream.producer.SerializableEvent
+import framework.ThreadContext
+import java.util.UUID
 
 class AdvertisementEventsProducer (
     private val messageBroker: MessageBroker
@@ -32,7 +34,14 @@ class AdvertisementEventsProducer (
     }
 
     private fun publishAdvertisementApproved(event: AdvertisementWasApproved) {
-        val advertisementApprovedEvent = AdvertisementApprovedEvent.create(event)
+        val correlationId = ThreadContext.get("correlationId")?.toString() ?: UUID.randomUUID().toString()
+        val causationId = ThreadContext.get("causationId")?.toString()
+
+        val advertisementApprovedEvent = AdvertisementApprovedEvent.create(
+            event,
+            correlationId,
+            causationId
+        )
         sendEventToMessageBroker(advertisementApprovedEvent)
     }
 

@@ -10,13 +10,15 @@ class AdvertisementApprovedEvent private constructor(
     override val eventType: String,
     override val version: String,
     override val occurredOn: LocalDateTime,
+    override val correlationId: String,
+    override val causationId: String?,
     override val payload: Map<String, Any>
-) : SerializableEvent(id, schema, eventType, version, occurredOn, payload) {
+) : SerializableEvent(id, schema, eventType, version, occurredOn, correlationId, causationId, payload) {
 
     companion object {
         const val SCHEMA = "https://demo.com/schemas/advertisement-approved_1_0.json"
 
-        fun create(advertisementWasApproved: AdvertisementWasApproved): AdvertisementApprovedEvent {
+        fun create(advertisementWasApproved: AdvertisementWasApproved, correlationId: String, causationId: String?): AdvertisementApprovedEvent {
             val payload = mapOf(
                 "advertisementId" to advertisementWasApproved.advertisementId
             )
@@ -27,7 +29,9 @@ class AdvertisementApprovedEvent private constructor(
                 advertisementWasApproved.eventType,
                 advertisementWasApproved.version,
                 advertisementWasApproved.occurredOn,
-                payload
+                correlationId,
+                causationId,
+                payload,
             )
         }
     }
