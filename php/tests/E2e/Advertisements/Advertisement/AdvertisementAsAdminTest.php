@@ -220,7 +220,7 @@ final class AdvertisementAsAdminTest extends TestCase
     {
         $files = glob(self::PUBLISHED_EVENTS_PATH . '*'); // get all file names
         foreach ($files as $file) { // iterate files
-            if (is_file($file)) {
+            if (is_file($file ) && pathinfo($file, PATHINFO_EXTENSION) === 'events') {
                 unlink($file); // delete file
             }
         }
