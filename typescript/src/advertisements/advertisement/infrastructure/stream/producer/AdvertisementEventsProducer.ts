@@ -4,6 +4,8 @@ import {DomainEvent} from "../../../../../common/domain/DomainEvent";
 import {EventPublisher} from "../../../../../common/domain/EventPublisher";
 import {SerializableEvent} from "../../../../../common/infrastructure/stream/SerializableEvent";
 import {MessageBroker} from "../../../../../common/infrastructure/stream/MessageBroker";
+import {v4 as uuidv4} from 'uuid';
+import {ThreadContext} from "../../../../../framework/ThreadContext";
 
 export class AdvertisementEventsProducer implements EventPublisher {
     private static readonly PUB_ADVERTISEMENT: string = 'pub.advertisement';
@@ -27,11 +29,18 @@ export class AdvertisementEventsProducer implements EventPublisher {
     }
 
     private publishAdvertisementApproved(event: AdvertisementWasApproved): void {
-        const approvedEvent = AdvertisementApprovedEvent.create(event);
+        const correlationId = ThreadContext.getValue("correlationId") ?? this.generateUniqueId();
+        const causationId = ThreadContext.getValue("causationId");
+
+        const approvedEvent = AdvertisementApprovedEvent.create(event, correlationId, causationId);
         this.sendEventToMessageBroker(approvedEvent);
     }
 
     private sendEventToMessageBroker(event: SerializableEvent): void {
         this.messageBroker.publish(event, AdvertisementEventsProducer.PUB_ADVERTISEMENT);
+    }
+
+    private generateUniqueId(): string {
+        return uuidv4();
     }
 }
