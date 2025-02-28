@@ -28,4 +28,14 @@ class ThreadContext
     {
         return $this->storage[$key] ?? null;
     }
+
+    public function remove(string $key): void
+    {
+        unset($this->storage[$key]);
+    }
+
+    public function clear(): void
+    {
+        $this->storage = [];
+    }
 }
