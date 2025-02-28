@@ -1,0 +1,8 @@
+{
+  "id": "33b5a680-c8e9-4bdd-84a0-1b1cbf39764b",
+  "schema": "https://demo.com/schemas/advertisement-approved_1_0.json",
+  "eventType": "advertisement-approved",
+  "version": "1.0",
+  "occurredOn": "2025-02-27T20:12:34.114131786",
+  "payload": { "advertisementId": "6fa00b21-2930-483e-b610-d6b0e5b19b29" }
+}
