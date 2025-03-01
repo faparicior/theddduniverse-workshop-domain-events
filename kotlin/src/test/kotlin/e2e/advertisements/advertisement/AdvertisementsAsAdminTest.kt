@@ -242,7 +242,7 @@ class AdvertisementsAsAdminTest {
         val directory = File("src/main/resources/stream/")
         if (directory.exists() && directory.isDirectory) {
             directory.listFiles()?.forEach { file ->
-                if (file.isFile && file.extension == "stream") {
+                if (file.isFile && file.extension == "events") {
                     file.delete()
                 }
             }
