@@ -1,13 +1,11 @@
 package advertisements.advertisement.domain.events
 
 import common.domain.DomainEvent
-import java.util.UUID
 
 class AdvertisementWasApproved(
     val eventType: String,
     val version: String,
     val advertisementId: String,
-    val eventId: String = UUID.randomUUID().toString()
 ) : DomainEvent() {
 
     companion object {
