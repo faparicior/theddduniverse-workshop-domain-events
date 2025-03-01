@@ -7,6 +7,7 @@ import common.exceptions.BoundedContextException
 import common.ui.http.CommonController
 import framework.FrameworkRequest
 import framework.FrameworkResponse
+import framework.ThreadContext
 import framework.securityuser.FrameworkSecurityService
 
 class ApproveAdvertisementController(
@@ -16,6 +17,7 @@ class ApproveAdvertisementController(
 
     override fun execute(request: FrameworkRequest, pathValues: Map<String, String>): FrameworkResponse {
         try {
+            ThreadContext.put("tenantId", request.headers["tenantId"]!!)
             val user = securityService.getSecurityUserFromRequest(request)!!
 
             if (user.role != "admin") {

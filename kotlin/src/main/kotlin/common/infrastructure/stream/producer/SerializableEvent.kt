@@ -14,6 +14,7 @@ abstract class SerializableEvent(
     open val source: String,
     open val aggregateId: String,
     open val aggregateType: String,
+    open val tenantId: String,
     open val payload: Map<String, Any>
 ) {
     fun toJson(): String {
@@ -29,6 +30,7 @@ abstract class SerializableEvent(
                 "source": "$source",
                 "aggregateId": "$aggregateId",
                 "aggregateType": "$aggregateType",
+                "tenantId": "$tenantId",
                 "payload": ${payloadToJson()}
             }
         """.trimIndent()

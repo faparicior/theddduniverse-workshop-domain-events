@@ -36,11 +36,13 @@ class AdvertisementEventsProducer (
     private fun publishAdvertisementApproved(event: AdvertisementWasApproved) {
         val correlationId = ThreadContext.get("correlationId")?.toString() ?: UUID.randomUUID().toString()
         val causationId = ThreadContext.get("causationId")?.toString()
+        val tenantId = ThreadContext.get("tenantId")!!.toString()
 
         val advertisementApprovedEvent = AdvertisementApprovedEvent.create(
             event,
             correlationId,
-            causationId
+            causationId,
+            tenantId,
         )
         sendEventToMessageBroker(advertisementApprovedEvent)
     }

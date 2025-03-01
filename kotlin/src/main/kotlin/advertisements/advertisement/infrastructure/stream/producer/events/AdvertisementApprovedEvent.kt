@@ -15,14 +15,15 @@ class AdvertisementApprovedEvent private constructor(
     override val source: String,
     override val aggregateId: String,
     override val aggregateType: String,
+    override val tenantId: String,
     override val payload: Map<String, Any>
-) : SerializableEvent(id, schema, eventType, version, occurredOn, correlationId, causationId, source, aggregateId, aggregateType, payload) {
+) : SerializableEvent(id, schema, eventType, version, occurredOn, correlationId, causationId, source, aggregateId, aggregateType, tenantId, payload) {
 
     companion object {
         const val SCHEMA = "https://demo.com/schemas/advertisement-approved_1_0.json"
         const val SOURCE = "advertisements"
 
-        fun create(advertisementWasApproved: AdvertisementWasApproved, correlationId: String, causationId: String?): AdvertisementApprovedEvent {
+        fun create(advertisementWasApproved: AdvertisementWasApproved, correlationId: String, causationId: String?, tenantId: String): AdvertisementApprovedEvent {
             val payload = mapOf(
                 "advertisementId" to advertisementWasApproved.advertisementId
             )
@@ -38,6 +39,7 @@ class AdvertisementApprovedEvent private constructor(
                 SOURCE,
                 advertisementWasApproved.aggregateId,
                 advertisementWasApproved.aggregateType,
+                tenantId,
                 payload,
             )
         }

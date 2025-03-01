@@ -27,6 +27,7 @@ class AdvertisementsAsAdminTest {
         private const val INCORRECT_PASSWORD = "myBadPassword"
 
         private const val CIVIC_CENTER_ID = "0d5a994b-1603-4c87-accc-581a59e4457c"
+        private const val TENANT_ID = "barcelona"
         private const val ADMIN_ID = "e95a8999-cb23-4fa2-9923-e3015ef30411"
 
         private const val HTTP_CREATED = "201"
@@ -123,7 +124,8 @@ class AdvertisementsAsAdminTest {
                             "advertisements/$MEMBER_ID/approve",
                             mapOf(),
                             mapOf(
-                                "userSession" to ADMIN_ID
+                                "userSession" to ADMIN_ID,
+                                "tenantId" to TENANT_ID,
                             )
                         )
                     )
