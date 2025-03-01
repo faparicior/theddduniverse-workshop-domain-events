@@ -1,0 +1,13 @@
+{
+  "id": "d270bfbf-388d-4c0a-9dba-ef98017d4991",
+  "schema": "https://demo.com/schemas/advertisement-approved_1_0.json",
+  "eventType": "advertisement-approved",
+  "version": "1.0",
+  "occurredOn": "2025-02-28T19:55:07.084669084",
+  "correlationId": "0f19bc2f-aec4-4731-ba35-4d0b1a5138ae",
+  "causationId": "",
+  "source": "advertisements",
+  "aggregateId": "6fa00b21-2930-483e-b610-d6b0e5b19b29",
+  "aggregateType": "advertisement",
+  "payload": { "advertisementId": "6fa00b21-2930-483e-b610-d6b0e5b19b29" }
+}
