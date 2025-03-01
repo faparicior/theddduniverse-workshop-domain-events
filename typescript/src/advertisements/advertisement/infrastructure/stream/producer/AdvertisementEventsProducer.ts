@@ -31,8 +31,9 @@ export class AdvertisementEventsProducer implements EventPublisher {
     private publishAdvertisementApproved(event: AdvertisementWasApproved): void {
         const correlationId = ThreadContext.getValue("correlationId") ?? this.generateUniqueId();
         const causationId = ThreadContext.getValue("causationId");
+        const tenantId = ThreadContext.getValue("tenantId");
 
-        const approvedEvent = AdvertisementApprovedEvent.create(event, correlationId, causationId);
+        const approvedEvent = AdvertisementApprovedEvent.create(event, correlationId, causationId, tenantId);
         this.sendEventToMessageBroker(approvedEvent);
     }
 

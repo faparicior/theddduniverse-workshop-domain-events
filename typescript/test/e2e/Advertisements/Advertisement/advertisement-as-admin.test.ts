@@ -14,6 +14,7 @@ const PASSWORD = 'myPassword'
 const ADMIN_ID = '91b5fa8c-6212-4c0f-862f-4dc1cb0472c4'
 const MEMBER_ID = 'e95a8999-cb23-4fa2-9923-e3015ef30411'
 const CIVIC_CENTER_ID = '0d5a994b-1603-4c87-accc-581a59e4457c'
+const BARCELONA_TENANT_ID = 'barcelona';
 
 describe("Advertisement as admin", () => {
     beforeAll(async () => {
@@ -35,7 +36,10 @@ describe("Advertisement as admin", () => {
 
         const request = new FrameworkRequest(Method.PUT, `/advertisement/${ID}/approve`,
             {},
-            { 'userSession': ADMIN_ID }
+            {
+                'userSession': ADMIN_ID,
+                'tenantId': BARCELONA_TENANT_ID,
+            }
         )
 
         const response = await server.route(request)

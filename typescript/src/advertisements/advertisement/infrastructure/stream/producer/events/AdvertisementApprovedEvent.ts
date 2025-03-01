@@ -16,12 +16,13 @@ export class AdvertisementApprovedEvent extends SerializableEvent {
         source: string,
         aggregateId: string,
         aggregateType: string,
+        tenantId: string,
         payload: object
     ) {
-        super(id, schema, eventType, version, occurredOn, correlationId, causationId, source, aggregateId, aggregateType, payload);
+        super(id, schema, eventType, version, occurredOn, correlationId, causationId, source, aggregateId, aggregateType, tenantId, payload);
     }
 
-    public static create(advertisementWasApproved: AdvertisementWasApproved, correlationId: string, causationId: string | null): AdvertisementApprovedEvent {
+    public static create(advertisementWasApproved: AdvertisementWasApproved, correlationId: string, causationId: string | null, tenantId: string): AdvertisementApprovedEvent {
         const payload = {
             advertisementId: advertisementWasApproved.advertisementId,
         };
@@ -37,6 +38,7 @@ export class AdvertisementApprovedEvent extends SerializableEvent {
             this.SOURCE,
             advertisementWasApproved.aggregateId,
             advertisementWasApproved.aggregateType,
+            tenantId,
             payload,
         );
     }

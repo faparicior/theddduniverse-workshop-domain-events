@@ -11,6 +11,7 @@ export abstract class SerializableEvent {
         public source: string,
         public aggregateId: string,
         public aggregateType: string,
+        public tenantId: string,
         public payload: { },
     ) {}
 
@@ -26,6 +27,7 @@ export abstract class SerializableEvent {
             source: this.source,
             aggregateId: this.aggregateId,
             aggregateType: this.aggregateType,
+            tenantId: this.tenantId,
             payload: this.payload,
         });
     }
