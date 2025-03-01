@@ -1,0 +1,12 @@
+{
+  "id": "0addcbdb-b160-405c-8831-5e2fdb70ff5c",
+  "schema": "https://demo.com/schemas/advertisement-approved_1_0.json",
+  "eventType": "advertisement-approved",
+  "version": "1.0",
+  "occurredOn": "2025-02-28T19:17:04.352Z",
+  "correlationId": "9eb767f0-0322-47a9-8993-708ef6b1fcbf",
+  "causationId": "",
+  "payload": {
+    "advertisementId": "6fa00b21-2930-483e-b610-d6b0e5b19b29"
+  }
+}
