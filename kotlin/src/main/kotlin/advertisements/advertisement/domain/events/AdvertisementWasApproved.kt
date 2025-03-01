@@ -1,5 +1,6 @@
 package advertisements.advertisement.domain.events
 
+import advertisements.advertisement.domain.Advertisement
 import common.domain.DomainEvent
 
 class AdvertisementWasApproved(
@@ -13,11 +14,11 @@ class AdvertisementWasApproved(
         const val VERSION = "1.0"
         const val AGGREGATE_TYPE = "advertisement"
 
-        fun create(advertisementId: String): AdvertisementWasApproved {
+        fun create(advertisement: Advertisement): AdvertisementWasApproved {
             return AdvertisementWasApproved(
                 EVENT_TYPE,
                 VERSION,
-                advertisementId
+                advertisement.id.value()
             )
         }
     }
