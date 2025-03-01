@@ -48,7 +48,7 @@ class Advertisement(
 
     fun approve() {
         approvalStatus = AdvertisementApprovalStatus.APPROVED
-        events.add(AdvertisementWasApproved.create(id.value()))
+        events.add(AdvertisementWasApproved.create(this))
     }
 
     fun pullEvents(): List<DomainEvent> {
