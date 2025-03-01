@@ -22,7 +22,7 @@ class AdvertisementApprovedEvent private constructor(
             )
 
             return AdvertisementApprovedEvent(
-                advertisementWasApproved.id,
+                advertisementWasApproved.eventId,
                 SCHEMA,
                 advertisementWasApproved.eventType,
                 advertisementWasApproved.version,
