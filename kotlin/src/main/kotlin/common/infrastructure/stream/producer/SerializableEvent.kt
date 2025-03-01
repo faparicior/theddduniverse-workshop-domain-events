@@ -11,6 +11,9 @@ abstract class SerializableEvent(
     open val occurredOn: LocalDateTime,
     open val correlationId: String,
     open val causationId: String?,
+    open val source: String,
+    open val aggregateId: String,
+    open val aggregateType: String,
     open val payload: Map<String, Any>
 ) {
     fun toJson(): String {
@@ -23,6 +26,9 @@ abstract class SerializableEvent(
                 "occurredOn": "${occurredOn.format(DateTimeFormatter.ISO_DATE_TIME)}",
                 "correlationId": "$correlationId",
                 "causationId": "${causationId ?: ""}",
+                "source": "$source",
+                "aggregateId": "$aggregateId",
+                "aggregateType": "$aggregateType",
                 "payload": ${payloadToJson()}
             }
         """.trimIndent()
