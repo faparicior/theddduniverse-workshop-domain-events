@@ -5,6 +5,7 @@ import {BoundedContextException} from "../../../../common/exceptions/BoundedCont
 import {FrameworkSecurityService} from "../../../../framework/security-user/FrameworkSecurityService";
 import {ApproveAdvertisementCommand} from "../../application/command/approve-advertisement/ApproveAdvertisementCommand";
 import {ApproveAdvertisementUseCase} from "../../application/command/approve-advertisement/ApproveAdvertisementUseCase";
+import {ThreadContext} from "../../../../framework/ThreadContext";
 
 type AddAdvertisementRequest = FrameworkRequest & {
   body: {
@@ -24,21 +25,26 @@ export class ApproveAdvertisementController extends CommonController {
   }
   async execute(req: AddAdvertisementRequest, params: Record<string, any> = {}): Promise<FrameworkResponse> {
     try {
-      const user = await this.frameworkSecurityService.getSecurityUserFromRequest(req)
+      return await ThreadContext.runAsync(async () => {
+        const user = await this.frameworkSecurityService.getSecurityUserFromRequest(req)
 
-      if (user === null || user.role() !== 'admin') {
-        return this.processUnauthorizedResponse();
-      }
 
-      const command = new ApproveAdvertisementCommand(
-        user.id(),
-        user.role(),
-        params.advertisementId,
-      )
+        ThreadContext.setValue('tenantId', req.headers['tenantId'])
 
-      await this.approveAdvertisementUseCase.execute(command)
+        if (user === null || user.role() !== 'admin') {
+          return this.processUnauthorizedResponse();
+        }
 
-      return this.processSuccessfulCommand()
+        const command = new ApproveAdvertisementCommand(
+          user.id(),
+          user.role(),
+          params.advertisementId,
+        )
+
+        await this.approveAdvertisementUseCase.execute(command)
+
+        return this.processSuccessfulCommand()
+      })
     } catch (error: any) {
       switch (true) {
         case error instanceof BoundedContextException:
