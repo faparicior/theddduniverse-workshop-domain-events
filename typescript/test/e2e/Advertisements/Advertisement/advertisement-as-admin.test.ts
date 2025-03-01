@@ -188,4 +188,6 @@ function assertEventIsPublished(expected: string, published: string): void {
     expect(Object.keys(expectedContent)).toEqual(Object.keys(publishedContent));
     expect(expectedContent.eventType).toEqual(publishedContent.eventType);
     expect(expectedContent.version).toEqual(publishedContent.version);
+    expect(expectedContent.source).toEqual(publishedContent.source);
+    expect(expectedContent.aggregateType).toEqual(publishedContent.aggregateType);
 }

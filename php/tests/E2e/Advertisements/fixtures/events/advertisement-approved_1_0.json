@@ -6,7 +6,7 @@
   "occurredOn": "2025-02-23T16:54:23+00:00",
   "correlationId": "99a7ff91-fd25-4bb5-9ee3-e29fe066e808",
   "causationId": null,
-  "source": "advertisement",
+  "source": "advertisements",
   "aggregateId": "6fa00b21-2930-483e-b610-d6b0e5b19b29",
   "aggregateType": "advertisement",
   "payload": {

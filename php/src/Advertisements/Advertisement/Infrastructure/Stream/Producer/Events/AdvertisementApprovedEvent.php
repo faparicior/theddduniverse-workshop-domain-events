@@ -8,7 +8,7 @@ use Demo\App\Common\Infrastructure\Stream\Producer\SerializableEvent;
 
 final readonly class AdvertisementApprovedEvent extends SerializableEvent
 {
-    private const string SOURCE = 'advertisement';
+    private const string SOURCE = 'advertisements';
     //TODO: CHANGE VERSION SCHEMA TO ADAPT TO THE EVENT
     private const string SCHEMA = 'https://demo.com/schemas/advertisement-approved_1_0.json';
 

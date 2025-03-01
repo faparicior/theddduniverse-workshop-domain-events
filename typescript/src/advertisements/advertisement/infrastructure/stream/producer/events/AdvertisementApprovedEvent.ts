@@ -3,6 +3,7 @@ import {SerializableEvent} from "../../../../../../common/infrastructure/stream/
 
 export class AdvertisementApprovedEvent extends SerializableEvent {
     private static readonly SCHEMA: string = 'https://demo.com/schemas/advertisement-approved_1_0.json';
+    private static readonly SOURCE: string = 'advertisements';
 
     private constructor(
         id: string,
@@ -12,9 +13,12 @@ export class AdvertisementApprovedEvent extends SerializableEvent {
         occurredOn: Date,
         correlationId: string,
         causationId: string | null,
+        source: string,
+        aggregateId: string,
+        aggregateType: string,
         payload: object
     ) {
-        super(id, schema, eventType, version, occurredOn, correlationId, causationId, payload);
+        super(id, schema, eventType, version, occurredOn, correlationId, causationId, source, aggregateId, aggregateType, payload);
     }
 
     public static create(advertisementWasApproved: AdvertisementWasApproved, correlationId: string, causationId: string | null): AdvertisementApprovedEvent {
@@ -30,6 +34,9 @@ export class AdvertisementApprovedEvent extends SerializableEvent {
             advertisementWasApproved.occurredOn,
             correlationId,
             causationId,
+            this.SOURCE,
+            advertisementWasApproved.aggregateId,
+            advertisementWasApproved.aggregateType,
             payload,
         );
     }

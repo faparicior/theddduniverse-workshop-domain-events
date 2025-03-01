@@ -5,6 +5,7 @@ import {v4 as uuidv4} from 'uuid';
 export class AdvertisementWasApproved extends DomainEvent {
     private static readonly EVENT_TYPE: string = 'advertisement-approved';
     private static readonly VERSION: string = '1.0';
+    private static readonly AGGREGATE_TYPE: string = 'advertisement';
 
     public eventId: string;
 
@@ -13,7 +14,7 @@ export class AdvertisementWasApproved extends DomainEvent {
         public version: string,
         public advertisementId: string,
     ) {
-        super();
+        super(advertisementId, AdvertisementWasApproved.AGGREGATE_TYPE);
         this.eventId = uuidv4();
     }
 

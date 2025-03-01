@@ -8,6 +8,9 @@ export abstract class SerializableEvent {
         public occurredOn: Date,
         public correlationId: string,
         public causationId: string | null,
+        public source: string,
+        public aggregateId: string,
+        public aggregateType: string,
         public payload: { },
     ) {}
 
@@ -20,6 +23,9 @@ export abstract class SerializableEvent {
             occurredOn: this.occurredOn.toISOString(),
             correlationId: this.correlationId,
             causationId: this.causationId ?? "",
+            source: this.source,
+            aggregateId: this.aggregateId,
+            aggregateType: this.aggregateType,
             payload: this.payload,
         });
     }
