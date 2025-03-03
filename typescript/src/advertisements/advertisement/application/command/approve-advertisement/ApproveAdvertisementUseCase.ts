@@ -42,9 +42,9 @@ export class ApproveAdvertisementUseCase {
       advertisement.approve()
 
       await this.advertisementRepository.save(advertisement)
-
-        this.eventPublisher.publish(...advertisement.pullEvents())
       await this.transactionManager.commit();
+
+      this.eventPublisher.publish(...advertisement.pullEvents())
     } catch (error) {
       await this.transactionManager.rollback();
       throw error
